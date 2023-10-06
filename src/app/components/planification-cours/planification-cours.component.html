@@ -1,0 +1,105 @@
+<div class="bg-beige w-[100%] flex items-center justify-center">
+  <div class="container mx-auto p-4">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-8">
+      Planification des cours
+    </h1>
+
+    <form
+      [formGroup]="form"
+      class="bg-white flex flex-col items-center rounded-lg shadow-lg p-6"
+    >
+      <div class="mb-6">
+        <label for="module" class="text-xl text-gray-600 mb-2 block"
+          >Module :</label
+        >
+        <select
+          id="module"
+          formControlName="module_id"
+          class="w-[50vw] border rounded p-2"
+          (change)="change($event)"
+        >
+          <option value="{{ module.id }}" *ngFor="let module of modules">
+            {{ module.libelle }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-6">
+        <div *ngIf="message != ''" class="text-red-400">{{ message }}</div>
+        <label for="professeur" class="text-xl text-gray-600 mb-2 block"
+          >Professeur :</label
+        >
+        <select
+          id="professeur"
+          formControlName="professeur_id"
+          class="w-[50vw] border rounded p-2"
+        >
+          <option value="{{ prof.id }}" *ngFor="let prof of profs">
+            {{ prof.professeurs }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-6">
+        <label for="semestre" class="text-xl text-gray-600 mb-2 block"
+          >Semestre en cours :</label
+        >
+        <input
+          type="text"
+          id="semestre"
+          formControlName="semestre_id"
+          class="w-[50vw] border rounded p-2"
+        />
+      </div>
+
+      <div class="mb-6">
+        <label class="text-xl text-gray-600 mb-2 block">Classes :</label>
+        <div formArrayName="classes">
+          <div
+            *ngFor="let cla of classes.controls; let i = index"
+            [formGroupName]="i"
+            class="flex mb-2"
+          >
+            <select
+              formControlName="classe_annee_id"
+              class="w-[23.3vw] border rounded p-2 mr-2"
+            >
+              <option value="{{ classe.id }}" *ngFor="let classe of classeAnnees">{{ classe.classe }}</option>
+            </select>
+            <input
+              formControlName="nbr_heure"
+              type="number"
+              placeholder="Heures"
+              class="w-[23.3vw] border rounded p-2"
+            />
+            <span
+              (click)="deleteCaract(i)"
+              class="text-2xl px-3 py-1 border-2 rounded-lg border-black cursor-pointer"
+              >x</span
+            >
+          </div>
+        </div>
+        <button
+          (click)="addClasse()"
+          type="button"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
+        >
+          Ajouter une classe
+        </button>
+      </div>
+
+      <div class="mt-8">
+        <a routerLink="/listeCours">
+          <button
+            type="submit"
+            (click)="onSubmit()"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
+          >
+            Ajouter un cours
+          </button>
+        </a>
+      </div>
+      <div class="text-green-300 text-lg">{{ succes }}</div>
+    </form>
+  </div>
+</div>
