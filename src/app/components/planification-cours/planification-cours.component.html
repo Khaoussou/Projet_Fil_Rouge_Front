@@ -64,11 +64,18 @@
               formControlName="classe_annee_id"
               class="w-[23.3vw] border rounded p-2 mr-2"
             >
-              <option value="{{ classe.id }}" *ngFor="let classe of classeAnnees">{{ classe.classe }}</option>
+              <option
+                value="{{ classe.id }}"
+                *ngFor="let classe of classeAnnees"
+              >
+                {{ classe.classe }}
+              </option>
             </select>
             <input
               formControlName="nbr_heure"
               type="number"
+              min="0"
+              (input)="choixHeure(i)"
               placeholder="Heures"
               class="w-[23.3vw] border rounded p-2"
             />
@@ -92,6 +99,7 @@
         <a routerLink="/listeCours">
           <button
             type="submit"
+            [disabled]="form.invalid"
             (click)="onSubmit()"
             class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
           >

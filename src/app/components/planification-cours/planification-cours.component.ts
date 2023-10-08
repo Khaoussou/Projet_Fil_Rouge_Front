@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
 import { Classe } from 'src/app/model/classe';
 import { Cour } from 'src/app/model/cour';
 import { Module } from 'src/app/model/module';
@@ -12,7 +12,6 @@ import { CoursService } from 'src/app/service/cours.service';
   styleUrls: ['./planification-cours.component.css'],
 })
 export class PlanificationCoursComponent implements OnInit {
-  public coursForm!: FormGroup;
   public modules: Module[] = [];
   public profs: ProfModule[] = [];
   public cours: Cour[] = [];
@@ -40,7 +39,7 @@ export class PlanificationCoursComponent implements OnInit {
     });
   }
 
-  form = this.fb.group({
+  form: FormGroup = this.fb.group({
     module_id: [0, Validators.required],
     professeur_id: [0, Validators.required],
     semestre_id: [0, Validators.required],
@@ -64,16 +63,23 @@ export class PlanificationCoursComponent implements OnInit {
     });
   }
 
+  updateValueGroup(index: number, attribut: string, value: string) {
+    const groupToUpdate = this.tabClasses.at(index);
+    groupToUpdate.get(attribut)?.setValue(value);
+  }
+
   newRow() {
     return this.fb.group({
       classe_annee_id: this.fb.control(0, Validators.required),
       nbr_heure: this.fb.control('', Validators.required),
+      nbr_heure_restant: this.fb.control('', Validators.required),
     });
   }
 
   addClasse() {
     this.tabClasses = this.form.get('classes') as FormArray;
     this.tabClasses.push(this.newRow());
+    console.log(this.tabClasses.value);
     this.index++;
   }
 
@@ -83,7 +89,18 @@ export class PlanificationCoursComponent implements OnInit {
     this.index = index;
   }
 
+  choixHeure(index: number) {
+    console.log(
+      this.updateValueGroup(
+        index,
+        'nbr_heure_restant',
+        this.tabClasses.value[index].nbr_heure
+      )
+    );
+  }
+
   onSubmit() {
+    
     this.coursService.add(this.form.value).subscribe((response) => {
       this.succes = response.message;
     });

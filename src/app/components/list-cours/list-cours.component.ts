@@ -20,6 +20,20 @@ export class ListCoursComponent implements OnInit {
     this.courService.getAll().subscribe((response) => {
       if ('cours' in response.data) {
         this.coursClasses = response.data.cours as Cour[];
+        console.log(this.coursClasses);
+      }
+    });
+  }
+
+  addSession(event: Event) {
+    let target: HTMLButtonElement = event.target as HTMLButtonElement;
+    console.log(this.coursClasses);
+    const id: string = target.getAttribute('id') as string;
+    this.courService.getClasse(+id).subscribe((response) => {
+      if ('classes' in response.data) {
+        console.log(response.data.classes);
+        localStorage.setItem('cour', JSON.stringify(response.data.classes));
+        localStorage.setItem('idCour', id);
       }
     });
   }
