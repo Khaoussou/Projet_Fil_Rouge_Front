@@ -1,0 +1,70 @@
+<div class="px-5 py-5">
+  <div class="flex justify-between py-2 text-lg">
+    <div class="flex space-x-3 border-2 rounded">
+      <button
+        class="bg-blue-300 hover:bg-blue-500 rounded p-1 text-white"
+        mwlCalendarPreviousView
+        [(viewDate)]="viewDate"
+        [view]="defaultView"
+      >
+        Previous
+      </button>
+      <button
+        class="bg-blue-300 hover:bg-blue-500 rounded p-1 text-white"
+        mwlCalendarToday
+        [(viewDate)]="viewDate"
+      >
+        Today
+      </button>
+      <button
+        class="bg-blue-300 hover:bg-blue-500 rounded p-1 text-white"
+        mwlCalendarNextView
+        [(viewDate)]="viewDate"
+        [view]="defaultView"
+      >
+        Next
+      </button>
+    </div>
+    <div class="text-lg">
+      {{ viewDate | calendarDate : defaultView + "ViewTitle" : "en" }}
+    </div>
+    <div class="flex space-x-3 border-2 rounded">
+      <button
+        class="bg-blue-300 text-lg hover:bg-blue-500 rounded p-1 text-white"
+        (click)="setView(calendarView.Month)"
+      >
+        Month
+      </button>
+      <button
+        class="bg-blue-300 text-lg hover:bg-blue-500 rounded p-1 text-white"
+        (click)="setView(calendarView.Week)"
+      >
+        Week
+      </button>
+      <button
+        class="bg-blue-300 text-lg hover:bg-blue-500 rounded p-1 text-white"
+        (click)="setView(calendarView.Day)"
+      >
+        Day
+      </button>
+    </div>
+  </div>
+  <span [ngSwitch]="defaultView" class="text-lg">
+    <mwl-calendar-month-view
+      *ngSwitchCase="calendarView.Month"
+      [viewDate]="viewDate"
+      [events]="events"
+      [activeDayIsOpen]="detail"
+    ></mwl-calendar-month-view>
+    <mwl-calendar-week-view
+      *ngSwitchCase="calendarView.Week"
+      [viewDate]="viewDate"
+      [events]="events"
+    ></mwl-calendar-week-view>
+    <mwl-calendar-day-view
+      *ngSwitchCase="calendarView.Day"
+      [viewDate]="viewDate"
+      [events]="events"
+    ></mwl-calendar-day-view>
+  </span>
+</div>

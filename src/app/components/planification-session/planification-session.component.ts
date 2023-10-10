@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import { CourClasse } from 'src/app/model/cour';
 import { Salle } from 'src/app/model/salle';
 import { SessionService } from 'src/app/service/session.service';
@@ -10,6 +11,8 @@ import { SessionService } from 'src/app/service/session.service';
   styleUrls: ['./planification-session.component.css'],
 })
 export class PlanificationSessionComponent implements OnInit {
+  @ViewChild(NgSelectComponent) ngSelect!: ElementRef;
+
   public classes: CourClasse[] = [];
   public nbrHeure: number = 0;
   public prof: string = '';
@@ -58,6 +61,7 @@ export class PlanificationSessionComponent implements OnInit {
 
   onSubmit() {
     this.form.value.courClasses = this.classeChoisies as any;
+    console.log(this.form.value);
     this.sessionService.add(this.form.value).subscribe((response) => {
       this.succes = response.message;
     });
@@ -88,7 +92,10 @@ export class PlanificationSessionComponent implements OnInit {
     });
   }
 
-  choixProf() {
+  choixProf(event: Event) {
+    let target: HTMLInputElement = event.target as HTMLInputElement
+    console.log(event);
+    
     this.sessionService
       .profDispo(this.profId, this.form.value)
       .subscribe((response) => {

@@ -9,9 +9,14 @@
         <div class="bg-white rounded-lg p-4 shadow-lg">
           <div class="flex justify-between">
             <h2 class="text-lg font-semibold">{{ coursItem.module }}</h2>
-            <i
-              class="fa-solid fa-pen-to-square cursor-pointer text-blue-500 font-semibold"
-            ></i>
+            <div class="flex space-x-5">
+              <i
+                class="fa-solid fa-pen-to-square cursor-pointer text-blue-500 font-semibold"
+              ></i>
+              <i
+                class="fa-solid fa-trash cursor-pointer text-blue-500 font-semibold"
+              ></i>
+            </div>
           </div>
           <p class="text-gray-600">Professeur: {{ coursItem.professeur }}</p>
           <p class="text-gray-600">Semestre: {{ coursItem.semestre }}</p>
