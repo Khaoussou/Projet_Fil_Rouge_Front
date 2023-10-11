@@ -14,6 +14,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ListeSessionComponent } from './components/liste-session/liste-session.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { InscriptionComponent } from './component/inscription/inscription.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     ListCoursComponent,
     PlanificationSessionComponent,
     ListeSessionComponent,
+    InscriptionComponent,
   ],
   imports: [
     BrowserModule,

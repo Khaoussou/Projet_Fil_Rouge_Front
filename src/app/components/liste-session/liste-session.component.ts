@@ -21,41 +21,26 @@ export class ListeSessionComponent implements OnInit {
     this.all();
   }
 
-  constructor(private sessionService: SessionService) {
-    this.sessionService.getAll().subscribe((response) => {
-      if ('session' in response.data) {
-        this.sessions = response.data.session as Session[];
-        this.allSessions = this.sessions;
-      }
-      console.log(this.sessions);
-      
-      const event1 = {
-        title: 'Cours Angular',
-        start: new Date(
-          this.sessions[0].date + 'T' + this.sessions[0].heure_debut
-        ),
-        end: new Date(
-          this.sessions[0].date + 'T' + this.sessions[0].heure_fin
-        ),
-      };
-      this.events.push(event1);
-      console.log(this.events);   
-      console.log(this.sessions[0].date);
-         
-    });
-    // const event1 = {
-    //   title: 'Cours Angular',
-    //   start: new Date('2023-10-12T10:30'),
-    //   end: new Date('2023-10-12T13:30'),
-    // };
-    // this.events.push(event1);
-  }
+  constructor(private sessionService: SessionService) {}
 
   setView(view: CalendarView) {
     this.defaultView = view;
   }
 
   all() {
-    this.allSessions = [];
+    this.sessionService.getAll().subscribe((response) => {
+      if ('session' in response.data) {
+        this.sessions = response.data.session as Session[];
+      }
+      this.sessions.forEach((session) => {
+        const event1 = {
+          title: session.prof,
+          start: new Date(session.date + 'T' + session.heure_debut),
+          end: new Date(session.date + 'T' + session.heure_fin),
+        };
+        this.events.push(event1);
+      });
+      console.log(this.events);
+    });
   }
 }
