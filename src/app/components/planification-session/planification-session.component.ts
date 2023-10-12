@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { CourClasse } from 'src/app/model/cour';
 import { Salle } from 'src/app/model/salle';
@@ -13,25 +13,27 @@ import { SessionService } from 'src/app/service/session.service';
 export class PlanificationSessionComponent implements OnInit {
   @ViewChild(NgSelectComponent) ngSelect!: ElementRef;
 
-  public classes: CourClasse[] = [];
-  public nbrHeure: number = 0;
-  public prof: string = '';
+  public classes!: CourClasse[];
+  public nbrHeure!: number;
+  public prof!: string;
   public salles: Salle[] = [];
   public salleDispo: string = '';
   public profDispo: string = '';
   public sessionDispo: string = '';
-  public profId: number = 0;
-  public courId: number = 0;
+  public profId!: number;
+  public courId!: number;
   public succes: string = '';
+  public form!: FormGroup;
   public classeChoisies: number[] = [];
 
   ngOnInit(): void {
     this.all();
-  }
-
-  constructor(private fb: FormBuilder, private sessionService: SessionService) {
     this.classes = [];
-    if (localStorage.getItem('cour') && localStorage.getItem('idCour')) {
+    const allCours = localStorage.getItem('cour');
+    const id = localStorage.getItem('idCour');
+    console.log(allCours);
+    console.log(id);
+    if (allCours && id) {
       const courJson = localStorage.getItem('cour');
       const cours = JSON.parse(courJson!);
       this.classes = cours;
@@ -43,13 +45,15 @@ export class PlanificationSessionComponent implements OnInit {
     }
   }
 
-  form = this.fb.group({
-    date: ['', Validators.required],
-    hd: [0, Validators.required],
-    hf: [0, Validators.required],
-    salle: [0, Validators.required],
-    courClasses: [[], Validators.required],
-  });
+  constructor(private fb: FormBuilder, private sessionService: SessionService) {
+    this.form = this.fb.group({
+      date: ['', Validators.required],
+      hd: [0, Validators.required],
+      hf: [0, Validators.required],
+      salle: [0, Validators.required],
+      courClasses: [[], Validators.required],
+    });
+  }
 
   all() {
     this.sessionService.getAll().subscribe((response) => {
@@ -93,9 +97,9 @@ export class PlanificationSessionComponent implements OnInit {
   }
 
   choixProf(event: Event) {
-    let target: HTMLInputElement = event.target as HTMLInputElement
+    let target: HTMLInputElement = event.target as HTMLInputElement;
     console.log(event);
-    
+
     this.sessionService
       .profDispo(this.profId, this.form.value)
       .subscribe((response) => {

@@ -26,15 +26,13 @@
             </span>
           </p>
           <div class="py-2 flex justify-end">
-            <a routerLink="/addSession">
-              <button
-                id="{{ coursItem.cour_id }}"
-                (click)="addSession($event)"
-                class="bg-blue-500 hover:bg-blue-600 p-2 rounded-xl text-white text-center"
-              >
-                Planifié une session
-              </button>
-            </a>
+            <button
+              id="{{ coursItem.cour_id }}"
+              (click)="addSession($event)"
+              class="bg-blue-500 hover:bg-blue-600 p-2 rounded-xl text-white text-center"
+            >
+              Planifié une session
+            </button>
           </div>
         </div>
       </ng-container>

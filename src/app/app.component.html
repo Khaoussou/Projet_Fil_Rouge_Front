@@ -1,2 +1,6 @@
-<app-nav-barr></app-nav-barr>
-<!-- <app-liste-session></app-liste-session>  -->
+<ng-container *ngIf="connexionService.isConnect; else loginPage">
+  <app-nav-barr></app-nav-barr>
+</ng-container>
+<ng-template #loginPage>
+  <app-connexion></app-connexion>
+</ng-template>

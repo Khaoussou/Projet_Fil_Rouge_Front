@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
+import { isSameDay, isSameMonth } from 'date-fns';
 import { Session } from 'src/app/model/session';
 import { SessionService } from 'src/app/service/session.service';
 
@@ -42,5 +43,23 @@ export class ListeSessionComponent implements OnInit {
       });
       console.log(this.events);
     });
+  }
+
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.detail === true) ||
+        events.length === 0
+      ) {
+        setTimeout(() => {
+          this.detail = false;
+        }, 3000);
+      } else {
+        setTimeout(() => {
+          this.detail = true;
+        }, 3000);
+        this.viewDate = date;
+      }
+    }
   }
 }

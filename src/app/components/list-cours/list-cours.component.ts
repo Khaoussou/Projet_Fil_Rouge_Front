@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Cour, CourClasse } from 'src/app/model/cour';
 import { CoursService } from 'src/app/service/cours.service';
 
@@ -14,7 +15,10 @@ export class ListCoursComponent implements OnInit {
   ngOnInit(): void {
     this.all();
   }
-  constructor(private courService: CoursService) {}
+  constructor(
+    private courService: CoursService,
+    private sessionRoute: Router
+  ) {}
 
   all() {
     this.courService.getAll().subscribe((response) => {
@@ -31,10 +35,10 @@ export class ListCoursComponent implements OnInit {
     const id: string = target.getAttribute('id') as string;
     this.courService.getClasse(+id).subscribe((response) => {
       if ('classes' in response.data) {
-        console.log(response.data.classes);
         localStorage.setItem('cour', JSON.stringify(response.data.classes));
         localStorage.setItem('idCour', id);
       }
+      this.sessionRoute.navigateByUrl('/addSession');
     });
   }
 }

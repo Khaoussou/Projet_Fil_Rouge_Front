@@ -1,28 +1,38 @@
-<nav class="bg-slate-300">
-  <div class="p-5">
-    <ul class="flex text-xl justify-evenly">
-      <li>bapbapbap</li>
-      <li>bapbapbap</li>
-      <li>bapbapbap</li>
-      <li>bapbapbap</li>
-    </ul>
-  </div>
-</nav>
+<div class="flex">
+  <div class="w-1/6 bg-slate-300"></div>
+  <nav class="bg-slate-300 w-5/6">
+    <div class="p-5">
+      <ul class="flex text-xl justify-between px-5">
+        <li>bapbapbap</li>
+        <li>bapbapbap</li>
+        <li>bapbapbap</li>
+        <li class="space-x-4 cursor-pointer">
+          <span>Deconnexion</span>
+          <i class="fa-solid fa-right-from-bracket" (click)="logout()"></i>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
 <div class="w-full mx-auto flex overflow-hidden">
   <nav class="bg-slate-600 text-white w-1/6 min-h-[93.5vh] p-4">
     <h1 class="text-2xl font-semibold mb-4">Tableau de bord</h1>
     <ul>
-      <li class="mb-2 text-xl">
-        <a href="#" class="block hover:underline">Accueil</a>
+      <li class="mb-2 text-2xl px-5 py-3">
+        <a routerLink="/addCours" class="block hover:underline">Planification cours</a>
       </li>
-      <li class="mb-2 text-xl">
-        <a href="#" class="block hover:underline">Profil</a>
+      <li class="mb-2 text-2xl px-5 py-3">
+        <a routerLink="/listeCours" class="block hover:underline"
+          >Liste cours</a
+        >
       </li>
-      <li class="mb-2 text-xl">
-        <a href="#" class="block hover:underline">Paramètres</a>
+      <li class="mb-2 text-2xl px-5 py-3">
+        <a routerLink="listeSession" class="block hover:underline"
+          >Liste sessions de cours</a
+        >
       </li>
-      <li class="mb-2 text-xl">
-        <a href="#" class="block hover:underline">Déconnexion</a>
+      <li class="mb-2 text-2xl px-5 py-3">
+        <a routerLink="inscrit" class="block hover:underline">Inscription</a>
       </li>
     </ul>
   </nav>
