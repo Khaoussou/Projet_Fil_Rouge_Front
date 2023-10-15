@@ -9,23 +9,34 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
 import { ConnexionComponent } from './components/connexion/connexion.component';
 import { AuthGuard } from './guard/auth.guard';
 import { HasRoleGuard } from './guard/role.guard';
+import { CourProfComponent } from './components/cour-prof/cour-prof.component';
+import { SessionProfComponent } from './components/session-prof/session-prof.component';
 
 const routes: Routes = [
   { path: '', component: ConnexionComponent },
   {
     path: 'addCours',
     component: PlanificationCoursComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, HasRoleGuard],
+    data: {
+      role: 'RP',
+    },
   },
   {
     path: 'listeCours',
     component: ListCoursComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, HasRoleGuard],
+    data: {
+      role: 'RP',
+    },
   },
   {
     path: 'addSession',
     component: PlanificationSessionComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, HasRoleGuard],
+    data: {
+      role: 'RP',
+    },
   },
   {
     path: 'listeSession',
@@ -46,7 +57,22 @@ const routes: Routes = [
   {
     path: 'updatePassWord',
     component: UpdatePasswordComponent,
-    canActivate: [AuthGuard],
+  },
+  {
+    path: 'courProf',
+    component: CourProfComponent,
+    canActivate: [AuthGuard, HasRoleGuard],
+    data: {
+      role: 'Prof',
+    },
+  },
+  {
+    path: 'sessionProf',
+    component: SessionProfComponent,
+    canActivate: [AuthGuard, HasRoleGuard],
+    data: {
+      role: 'Prof',
+    },
   },
 ];
 

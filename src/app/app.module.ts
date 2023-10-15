@@ -25,6 +25,8 @@ import { InscriptionComponent } from './component/inscription/inscription.compon
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 import { registerLocaleData } from '@angular/common';
 import { ConnexionComponent } from './components/connexion/connexion.component';
+import { CourProfComponent } from './components/cour-prof/cour-prof.component';
+import { SessionProfComponent } from './components/session-prof/session-prof.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -55,6 +57,8 @@ class FormatDate extends CalendarNativeDateFormatter {
     InscriptionComponent,
     UpdatePasswordComponent,
     ConnexionComponent,
+    CourProfComponent,
+    SessionProfComponent,
   ],
   imports: [
     BrowserModule,

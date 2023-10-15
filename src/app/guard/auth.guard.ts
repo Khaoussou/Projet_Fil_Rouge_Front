@@ -6,12 +6,13 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { AuthService } from '../service/auth.service';
+import { ConnexionService } from '../service/connexion.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router, private login: ConnexionService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -19,8 +20,10 @@ export class AuthGuard implements CanActivate {
   ): boolean {
     const token = this.auth.getItem();
     if (token) {
+      this.login.isConnect = true
       return true;
     } else {
+      this.login.isConnect = false
       this.router.navigate(['']);
       return false;
     }

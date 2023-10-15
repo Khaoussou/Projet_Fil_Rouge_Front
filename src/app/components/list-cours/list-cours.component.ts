@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cour, CourClasse } from 'src/app/model/cour';
+import { Eleve } from 'src/app/model/eleve';
+import { Inscription } from 'src/app/model/inscription';
 import { CoursService } from 'src/app/service/cours.service';
 
 @Component({
@@ -10,23 +12,68 @@ import { CoursService } from 'src/app/service/cours.service';
 })
 export class ListCoursComponent implements OnInit {
   public coursClasses: Cour[] = [];
+  public showOneCours!: Cour;
+  public showClasses: CourClasse[] = [];
+  public heureGlobal: number = 0;
+  public heureEffectue: number = 0;
+  public coursClasseFilter: Cour[] = [];
   public cours: CourClasse[] = [];
+  public tabEtudiants: Eleve[] = [];
+  public tabEtudiantsFilter: Eleve[] = [];
+  @ViewChild('modal') modal!: ElementRef;
 
   ngOnInit(): void {
     this.all();
   }
-  constructor(
-    private courService: CoursService,
-    private sessionRoute: Router
-  ) {}
+  constructor(private courService: CoursService, private route: Router) {}
+
+  choixEtat(event: Event) {
+    this.coursClasses = this.coursClasseFilter;
+    let target: HTMLSelectElement = event.target as HTMLSelectElement;
+    this.coursClasses = this.coursClasses.filter(
+      (cours) => cours.etat == target.value
+    );
+  }
 
   all() {
     this.courService.getAll().subscribe((response) => {
       if ('cours' in response.data) {
         this.coursClasses = response.data.cours as Cour[];
-        console.log(this.coursClasses);
+        this.coursClasseFilter = [...this.coursClasses];
       }
     });
+  }
+
+  detailCours(event: Event) {
+    this.modal.nativeElement.style.display = 'block';
+    let target: any = event.target;
+    let id: number = target.getAttribute('id');
+    this.courService.getById(id).subscribe((response) => {
+      if ('cours' in response.data) {
+        this.showOneCours = response.data.cours as Cour;
+        this.showClasses = this.showOneCours.cours;
+        this.heureGlobal = this.showOneCours.cours[0].nbr_heure;
+        this.heureEffectue = this.showOneCours.cours[0].nbr_heure_effectue;
+      }
+    });
+    this.courService.getClasseCours(id).subscribe((response) => {
+      if ('users' in response.data) {
+        this.tabEtudiants = response.data.users as Eleve[];
+        this.tabEtudiantsFilter = this.tabEtudiants;
+      }
+    });
+  }
+
+  choixClasse(event: Event) {
+    this.tabEtudiants = this.tabEtudiantsFilter;
+    let target: HTMLSelectElement = event.target as HTMLSelectElement;
+    this.tabEtudiants = this.tabEtudiants.filter(
+      (cours) => cours.classe == target.value
+    );
+  }
+
+  back() {
+    this.modal.nativeElement.style.display = 'none';
   }
 
   addSession(event: Event) {
@@ -38,7 +85,7 @@ export class ListCoursComponent implements OnInit {
         localStorage.setItem('cour', JSON.stringify(response.data.classes));
         localStorage.setItem('idCour', id);
       }
-      this.sessionRoute.navigateByUrl('/addSession');
+      this.route.navigateByUrl('/addSession');
     });
   }
 }

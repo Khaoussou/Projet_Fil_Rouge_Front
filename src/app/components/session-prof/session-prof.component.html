@@ -1,4 +1,7 @@
 <div class="px-5 py-5">
+  <h1 class="flex text-3xl justify-center font-semibold text-gray-800">
+    Voici les sessions prévues pour vous dans ce cours !!!
+  </h1>
   <div class="flex justify-between py-2 text-lg">
     <div class="flex space-x-3 border-2 rounded">
       <button
@@ -59,7 +62,7 @@
       locale="fr"
       [excludeDays]="[0, 6]"
       [activeDayIsOpen]="detail"
-      (eventClicked)="detailEvent($event)"
+      (dayClicked)="dayClicked($event.day)"
     ></mwl-calendar-month-view>
     <mwl-calendar-week-view
       *ngSwitchCase="calendarView.Week"

@@ -1,6 +1,7 @@
 export interface Cour {
   cour_id: number;
   semestre: string;
+  etat: string;
   module: string;
   professeur: string;
   cours: CourClasse[];

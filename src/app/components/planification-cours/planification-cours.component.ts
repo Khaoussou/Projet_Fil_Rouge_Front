@@ -51,8 +51,10 @@ export class PlanificationCoursComponent implements OnInit {
   }
 
   change(event: Event) {
+    
     this.profs = [];
     const target: HTMLSelectElement = event.target as HTMLSelectElement;
+    console.log(target.value);
     this.coursService.getProf(+target.value).subscribe((response) => {
       if ('prof' in response.data) {
         this.profs.push(response.data.prof as ProfModule);

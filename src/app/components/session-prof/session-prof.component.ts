@@ -5,11 +5,11 @@ import { Session } from 'src/app/model/session';
 import { SessionService } from 'src/app/service/session.service';
 
 @Component({
-  selector: 'app-liste-session',
-  templateUrl: './liste-session.component.html',
-  styleUrls: ['./liste-session.component.css'],
+  selector: 'app-session-prof',
+  templateUrl: './session-prof.component.html',
+  styleUrls: ['./session-prof.component.css'],
 })
-export class ListeSessionComponent implements OnInit {
+export class SessionProfComponent implements OnInit {
   public viewDate: Date = new Date();
   public defaultView: CalendarView = CalendarView.Week;
   public calendarView = CalendarView;
@@ -17,8 +17,14 @@ export class ListeSessionComponent implements OnInit {
   public allSessions: Session[] = [];
   public detail: boolean = false;
   public events: CalendarEvent[] = [];
+  public idProf: number = 0;
 
   ngOnInit(): void {
+    const userConnectData = localStorage.getItem('user');
+    const userConnect = JSON.parse(userConnectData!);
+    if (userConnect) {
+      this.idProf = userConnect.prof_id;
+    }
     this.all();
   }
 
@@ -29,9 +35,9 @@ export class ListeSessionComponent implements OnInit {
   }
 
   all() {
-    this.sessionService.getAll().subscribe((response) => {
-      if ('session' in response.data) {
-        this.sessions = response.data.session as Session[];
+    this.sessionService.sessionProf(this.idProf).subscribe((response) => {
+      if ('sessions' in response.data) {
+        this.sessions = response.data.sessions as Session[];
       }
       this.sessions.forEach((session) => {
         const event1 = {
@@ -61,9 +67,5 @@ export class ListeSessionComponent implements OnInit {
         this.viewDate = date;
       }
     }
-  }
-
-  detailEvent(event: any) {
-    console.log(event);
   }
 }
