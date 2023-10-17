@@ -62,6 +62,7 @@
       locale="fr"
       [excludeDays]="[0, 6]"
       [activeDayIsOpen]="detail"
+      (eventClicked)="detailEvent($event)"
       (dayClicked)="dayClicked($event.day)"
     ></mwl-calendar-month-view>
     <mwl-calendar-week-view

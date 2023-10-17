@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Cour, CourClasse } from 'src/app/model/cour';
 import { Eleve } from 'src/app/model/eleve';
 import { Inscription } from 'src/app/model/inscription';
+import { User } from 'src/app/model/user';
 import { CoursService } from 'src/app/service/cours.service';
 
 @Component({
@@ -20,9 +21,14 @@ export class ListCoursComponent implements OnInit {
   public cours: CourClasse[] = [];
   public tabEtudiants: Eleve[] = [];
   public tabEtudiantsFilter: Eleve[] = [];
+  public user!: User;
   @ViewChild('modal') modal!: ElementRef;
 
   ngOnInit(): void {
+    const userConnectData = localStorage.getItem('user');
+    if (userConnectData) {
+      this.user = JSON.parse(userConnectData!);
+    }
     this.all();
   }
   constructor(private courService: CoursService, private route: Router) {}
@@ -41,6 +47,7 @@ export class ListCoursComponent implements OnInit {
         this.coursClasses = response.data.cours as Cour[];
         this.coursClasseFilter = [...this.coursClasses];
       }
+      console.log(this.coursClasses);
     });
   }
 
@@ -62,6 +69,25 @@ export class ListCoursComponent implements OnInit {
         this.tabEtudiantsFilter = this.tabEtudiants;
       }
     });
+  }
+
+  updateState(event: Event) {
+    this.coursClasses = this.coursClasseFilter;
+    let target: HTMLInputElement = event.target as HTMLInputElement;
+    let id: number = this.showOneCours.cour_id;
+    this.courService
+      .updated(id, { etat: target.value })
+      .subscribe((response) => {
+        let findCour: Cour = this.coursClasses.find(
+          (cour) => cour.cour_id == id
+        ) as Cour;
+        const index: number = this.coursClasses.indexOf(findCour);
+        if ('cours' in response.data) {
+          findCour = response.data.cours as Cour;
+        }
+        this.coursClasses.splice(index, 1, findCour);
+        console.log(this.coursClasses);
+      });
   }
 
   choixClasse(event: Event) {

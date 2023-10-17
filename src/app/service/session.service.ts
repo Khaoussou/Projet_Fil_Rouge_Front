@@ -27,4 +27,8 @@ export class SessionService extends ServiceMereService<any> {
   sessionProf(id: number): Observable<Response<any>> {
     return this.http.get<Response<any>>(this.url + 'sessionProf/' + id);
   }
+
+  modify(body: any): Observable<Response<any>> {
+    return this.http.put<Response<any>>(this.url + 'modify', body);
+  }
 }

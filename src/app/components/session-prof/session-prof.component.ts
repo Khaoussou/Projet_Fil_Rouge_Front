@@ -68,4 +68,8 @@ export class SessionProfComponent implements OnInit {
       }
     }
   }
+
+  detailEvent(event: any) {
+    console.log(event);
+  }
 }

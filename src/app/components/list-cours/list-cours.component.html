@@ -58,12 +58,11 @@
       </ng-container>
     </div>
   </div>
-  <div #modal
+  <div
+    #modal
     class="none bg-slate-300 opacity-100 rounded-lg w-[83.3%] h-full z-10 flex flex-col items-center absolute top-0"
   >
-    <div
-      class="modal-container w-full bg-white p-3 mt-16 space-y-3 rounded"
-    >
+    <div class="modal-container w-full bg-white p-3 mt-16 space-y-3 rounded">
       <div class="flex items-center gap-5">
         <i
           class="fa-sharp fa-solid fa-backward cursor-pointer"
@@ -72,18 +71,23 @@
         <div class="modal-header text-xl">Voici les détails de ce cours</div>
       </div>
       <div class="modal-body px-5 space-y-2">
-        <p class="text-xl">Nombre d'heure global : 
+        <p class="text-xl">
+          Nombre d'heure global :
           <span class="text-lg text-blueGray-700 font-semibold">
             {{ heureGlobal }}
-          </span></p>
-        <p class="text-xl">Nombre d'heure éffectué : 
+          </span>
+        </p>
+        <p class="text-xl">
+          Nombre d'heure éffectué :
           <span class="text-lg text-blueGray-700 font-semibold">
             {{ heureEffectue }}
           </span>
         </p>
       </div>
       <div>
-        <h3 class="px-5 text-xl py-3">Et voici l'ensemble des éléves qui le suivent :</h3>
+        <h3 class="px-5 text-xl py-3">
+          Et voici l'ensemble des éléves qui le suivent :
+        </h3>
         <link
           rel="stylesheet"
           href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css"
@@ -104,20 +108,45 @@
                       Info étudiant
                     </h3>
                   </div>
-                  <div *ngIf="showClasses.length != 1" class="relative w-full max-w-full space-x-5 flex-1 text-right">
-                    <label for="" class="text-lg font-semibold text-blueGray-700">Filtrage par classe: </label>
-                    <select name="" id="" class="cursor-pointer rounded" (change)="choixClasse($event)">
+                  <div
+                    *ngIf="showClasses.length != 1"
+                    class="relative w-full max-w-full space-x-5 flex-1 text-right"
+                  >
+                    <label
+                      for=""
+                      class="text-lg font-semibold text-blueGray-700"
+                      >Filtrage par classe:
+                    </label>
+                    <select
+                      name=""
+                      id=""
+                      class="cursor-pointer rounded"
+                      (change)="choixClasse($event)"
+                    >
                       <option value="" selected disabled>
                         Veuillez choisir une classe
                       </option>
-                      <option value="{{ classe.classe }}" *ngFor="let classe of showClasses">
+                      <option
+                        value="{{ classe.classe }}"
+                        *ngFor="let classe of showClasses"
+                      >
                         {{ classe.classe }}
                       </option>
                     </select>
                   </div>
-                  <div *ngIf="showClasses.length == 1" class="relative w-full max-w-full flex-1 text-right">
-                    <label for="" class="text-lg text-blueGray-700">Voici la classe concernée : </label>
-                    <input type="text" readonly value="{{ showClasses[0].classe }}" class="border-none text-lg text-blueGray-700 font-semibold" />
+                  <div
+                    *ngIf="showClasses.length == 1"
+                    class="relative w-full max-w-full flex-1 text-right"
+                  >
+                    <label for="" class="text-lg text-blueGray-700"
+                      >Voici la classe concernée :
+                    </label>
+                    <input
+                      type="text"
+                      readonly
+                      value="{{ showClasses[0].classe }}"
+                      class="border-none text-lg text-blueGray-700 font-semibold"
+                    />
                   </div>
                 </div>
               </div>
@@ -199,11 +228,16 @@
           </div>
         </section>
       </div>
-      <div class="modal-footer text-lg flex gap-5 px-5">
+      <div
+        *ngIf="user.role == 'Attache'"
+        class="modal-footer text-lg flex gap-5 px-5"
+      >
         <div class="space-x-2">
           <label for="valide">Valider</label>
           <input
             type="radio"
+            (change)="updateState($event)"
+            value="Terminer"
             class="cursor-pointer"
             name="confirmation"
             id=""
@@ -213,6 +247,8 @@
           <label for="invalide">Invalider</label>
           <input
             type="radio"
+            (change)="updateState($event)"
+            value="En cours"
             class="cursor-pointer"
             name="confirmation"
             id=""

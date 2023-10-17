@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { CourClasse } from 'src/app/model/cour';
 import { Salle } from 'src/app/model/salle';
+import { Session } from 'src/app/model/session';
 import { SessionService } from 'src/app/service/session.service';
 
 @Component({
@@ -14,8 +15,9 @@ export class PlanificationSessionComponent implements OnInit {
   @ViewChild(NgSelectComponent) ngSelect!: ElementRef;
 
   public classes!: CourClasse[];
-  public nbrHeure!: number;
+  public nbrHeure!: string;
   public prof!: string;
+  public session: Session[] = [];
   public salles: Salle[] = [];
   public salleDispo: string = '';
   public profDispo: string = '';
@@ -37,9 +39,11 @@ export class PlanificationSessionComponent implements OnInit {
       const courJson = localStorage.getItem('cour');
       const cours = JSON.parse(courJson!);
       this.classes = cours;
+      console.log(cours);
+      
       const id: string = localStorage.getItem('idCour') as string;
       this.courId = +id;
-      this.nbrHeure = this.classes[0].nbr_heure_restant as number;
+      this.nbrHeure = this.classes[0].nbr_heure_restant + ':00';
       this.prof = this.classes[0].professeur as string;
       this.profId = this.classes[0].professeur_id as number;
     }
@@ -68,6 +72,27 @@ export class PlanificationSessionComponent implements OnInit {
     console.log(this.form.value);
     this.sessionService.add(this.form.value).subscribe((response) => {
       this.succes = response.message;
+      if ('session' in response.data) {
+        this.session = response.data.session as Session[];
+        const hd: string = this.session[0].heure_debut as string;
+        const hf: string = this.session[0].heure_fin as string;
+        const time1 =
+          parseInt(this.nbrHeure.split(':')[0]) * 60 +
+          parseInt(this.nbrHeure.split(':')[1]);
+        const time2 =
+          parseInt(hd.split(':')[0]) * 60 + parseInt(hd.split(':')[1]);
+        const time3 =
+          parseInt(hf.split(':')[0]) * 60 + parseInt(hf.split(':')[1]);
+        const differenceEnMinutes = time3 - time2;
+        const nouveauTempsEnMinutes = time1 - differenceEnMinutes;
+        const heures = Math.floor(nouveauTempsEnMinutes / 60);
+        const minutes = nouveauTempsEnMinutes % 60;
+        const nouveauTimeString =
+          heures.toString().padStart(2, '0') +
+          ':' +
+          minutes.toString().padStart(2, '0');
+        this.nbrHeure = nouveauTimeString;
+      }
     });
     this.form.reset();
   }

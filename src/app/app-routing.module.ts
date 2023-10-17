@@ -19,7 +19,7 @@ const routes: Routes = [
     component: PlanificationCoursComponent,
     canActivate: [AuthGuard, HasRoleGuard],
     data: {
-      role: 'RP',
+      role: ['RP'],
     },
   },
   {
@@ -27,7 +27,7 @@ const routes: Routes = [
     component: ListCoursComponent,
     canActivate: [AuthGuard, HasRoleGuard],
     data: {
-      role: 'RP',
+      role: ['RP', 'Attache'],
     },
   },
   {
@@ -35,7 +35,7 @@ const routes: Routes = [
     component: PlanificationSessionComponent,
     canActivate: [AuthGuard, HasRoleGuard],
     data: {
-      role: 'RP',
+      role: ['RP'],
     },
   },
   {
@@ -43,7 +43,7 @@ const routes: Routes = [
     component: ListeSessionComponent,
     canActivate: [AuthGuard, HasRoleGuard],
     data: {
-      role: 'RP',
+      role: ['RP', 'Attache'],
     },
   },
   {
@@ -51,7 +51,7 @@ const routes: Routes = [
     component: InscriptionComponent,
     canActivate: [AuthGuard, HasRoleGuard],
     data: {
-      role: 'RP',
+      role: ['RP'],
     },
   },
   {
@@ -63,7 +63,7 @@ const routes: Routes = [
     component: CourProfComponent,
     canActivate: [AuthGuard, HasRoleGuard],
     data: {
-      role: 'Prof',
+      role: ['Prof'],
     },
   },
   {
@@ -71,7 +71,7 @@ const routes: Routes = [
     component: SessionProfComponent,
     canActivate: [AuthGuard, HasRoleGuard],
     data: {
-      role: 'Prof',
+      role: ['Prof']
     },
   },
 ];

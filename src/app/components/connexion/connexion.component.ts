@@ -15,7 +15,7 @@ export class ConnexionComponent {
   constructor(
     private fb: FormBuilder,
     private route: Router,
-    private connexionService: ConnexionService
+    private connexionService: ConnexionService,
   ) {
     this.form = fb.group({
       username: ['', Validators.required],
@@ -33,6 +33,8 @@ export class ConnexionComponent {
           this.route.navigateByUrl('/addCours');
         } else if (this.user.role == 'Prof') {
           this.route.navigateByUrl('/courProf');
+        } else if (this.user.role == 'Attache') {
+          this.route.navigateByUrl('/listeSession');
         } else {
           this.route.navigateByUrl('/updatePassWord');
         }

@@ -12,9 +12,7 @@ import { User } from '../model/user';
   providedIn: 'root',
 })
 export class AuthService implements HttpInterceptor {
-  constructor() {
-    this.user = this.getRole();
-  }
+  constructor() {}
   public token: string = '';
   public user!: User;
   getItem() {
@@ -24,7 +22,8 @@ export class AuthService implements HttpInterceptor {
   }
   getRole() {
     const userConnectData = localStorage.getItem('user');
-    return JSON.parse(userConnectData!);
+    this.user = JSON.parse(userConnectData!);
+    return this.user.role;
   }
   intercept(
     request: HttpRequest<any>,
