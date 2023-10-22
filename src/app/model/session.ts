@@ -5,6 +5,7 @@ export interface Session {
   heure_fin: string;
   cour_id: number
   etat: string;
+  demande: string;
   prof: string;
   module: string;
   salle: string;

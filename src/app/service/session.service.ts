@@ -28,6 +28,10 @@ export class SessionService extends ServiceMereService<any> {
     return this.http.post<Response<any>>(this.url + 'removeSession/', body);
   }
 
+  demandeSession(body: any): Observable<Response<any>> {
+    return this.http.post<Response<any>>(this.url + 'demande/', body);
+  }
+
   sessionProf(id: number): Observable<Response<any>> {
     return this.http.get<Response<any>>(this.url + 'sessionProf/' + id);
   }

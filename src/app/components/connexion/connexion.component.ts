@@ -15,7 +15,7 @@ export class ConnexionComponent {
   constructor(
     private fb: FormBuilder,
     private route: Router,
-    private connexionService: ConnexionService,
+    private connexionService: ConnexionService
   ) {
     this.form = fb.group({
       username: ['', Validators.required],
@@ -25,7 +25,8 @@ export class ConnexionComponent {
 
   onSubmit() {
     console.log('bap');
-    
+    console.log(this.connexionService.isConnect);
+
     this.connexionService.login(this.form.value).subscribe((response) => {
       if ('token' in response) {
         localStorage.setItem('user', JSON.stringify(response));

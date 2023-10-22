@@ -12,7 +12,6 @@ import { User } from '../model/user';
   providedIn: 'root',
 })
 export class AuthService implements HttpInterceptor {
-  constructor() {}
   public token: string = '';
   public user!: User;
   getItem() {

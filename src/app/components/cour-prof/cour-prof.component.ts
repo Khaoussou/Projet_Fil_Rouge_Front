@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Cour } from 'src/app/model/cour';
+import { Cour, CourClasse } from 'src/app/model/cour';
+import { Inscription } from 'src/app/model/inscription';
 import { CoursService } from 'src/app/service/cours.service';
 
 @Component({
@@ -12,6 +13,9 @@ export class CourProfComponent implements OnInit {
   public coursProfs: Cour[] = [];
   public idProf: number = 0;
   public nomProf: string = '';
+  public tabEtudiants: Inscription[] = [];
+  public showClasses: CourClasse[] = [];
+
 
   ngOnInit(): void {
     const userConnectData = localStorage.getItem('user');

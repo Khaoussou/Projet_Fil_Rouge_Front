@@ -10,7 +10,7 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class ConnexionService extends ServiceMereService<UpdatePassword> {
   public isConnect: boolean = false;
-  public token: boolean = false;
+  public token: string = '';
   login(body: any): Observable<Response<UpdatePassword>> {
     this.isConnect = true;
     return this.http.post<Response<UpdatePassword>>(this.url + 'login', body);

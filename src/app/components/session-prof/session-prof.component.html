@@ -1,86 +1,166 @@
-<div class="px-5 py-5">
-  <h1 class="flex text-3xl justify-center font-semibold text-gray-800">
-    Voici les sessions prévues pour vous dans ce cours !!!
-  </h1>
-  <div class="flex justify-between py-2 text-lg">
-    <div class="flex space-x-3 border-2 rounded">
-      <button
-        class="bg-blue-300 hover:bg-blue-500 rounded p-1 text-white"
-        mwlCalendarPreviousView
-        [(viewDate)]="viewDate"
-        [view]="defaultView"
-        [excludeDays]="[0, 6]"
-      >
-        Précedent
-      </button>
-      <button
-        class="bg-blue-300 hover:bg-blue-500 rounded p-1 text-white"
-        mwlCalendarToday
-        [(viewDate)]="viewDate"
-      >
-        Aujourd'hui
-      </button>
-      <button
-        class="bg-blue-300 hover:bg-blue-500 rounded p-1 text-white"
-        mwlCalendarNextView
-        [(viewDate)]="viewDate"
-        [view]="defaultView"
-        [excludeDays]="[0, 6]"
-      >
-        Suivant
-      </button>
+<div class="relative">
+  <div class="px-5 py-5">
+    <h1 class="flex text-3xl justify-center font-semibold text-gray-800">
+      Voici les sessions prévues pour vous dans ce cours !!!
+    </h1>
+    <div class="flex justify-between py-2 text-lg">
+      <div class="flex">
+        <div class="flex gap-5 justify-end">
+          <label for="">Filtrage par module</label>
+          <select
+            name=""
+            id=""
+            (change)="choixModule($event)"
+            class="rounded p-2 cursor-pointer"
+          >
+            <option value="" selected disabled>
+              Veuillez choisir un module svp
+            </option>
+            <option value="Angular">Angular</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="Php">Php</option>
+            <option value="Type Script">Type Script</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex space-x-3 border-2 rounded">
+        <button
+          class="bg-blue-300 hover:bg-blue-500 rounded p-1 text-white"
+          mwlCalendarPreviousView
+          [(viewDate)]="viewDate"
+          [view]="defaultView"
+          [excludeDays]="[0, 6]"
+        >
+          Précedent
+        </button>
+        <button
+          class="bg-blue-300 hover:bg-blue-500 rounded p-1 text-white"
+          mwlCalendarToday
+          [(viewDate)]="viewDate"
+        >
+          Aujourd'hui
+        </button>
+        <button
+          class="bg-blue-300 hover:bg-blue-500 rounded p-1 text-white"
+          mwlCalendarNextView
+          [(viewDate)]="viewDate"
+          [view]="defaultView"
+          [excludeDays]="[0, 6]"
+        >
+          Suivant
+        </button>
+      </div>
+      <div class="text-lg">
+        {{ viewDate | calendarDate : defaultView + "ViewTitle" : "fr" }}
+      </div>
+      <div class="flex space-x-3 border-2 rounded">
+        <button
+          class="bg-blue-300 text-lg hover:bg-blue-500 rounded p-1 text-white"
+          (click)="setView(calendarView.Month)"
+        >
+          Mois
+        </button>
+        <button
+          class="bg-blue-300 text-lg hover:bg-blue-500 rounded p-1 text-white"
+          (click)="setView(calendarView.Week)"
+        >
+          Semaine
+        </button>
+        <button
+          class="bg-blue-300 text-lg hover:bg-blue-500 rounded p-1 text-white"
+          (click)="setView(calendarView.Day)"
+        >
+          Jour
+        </button>
+      </div>
     </div>
-    <div class="text-lg">
-      {{ viewDate | calendarDate : defaultView + "ViewTitle" : "fr" }}
-    </div>
-    <div class="flex space-x-3 border-2 rounded">
-      <button
-        class="bg-blue-300 text-lg hover:bg-blue-500 rounded p-1 text-white"
-        (click)="setView(calendarView.Month)"
-      >
-        Mois
-      </button>
-      <button
-        class="bg-blue-300 text-lg hover:bg-blue-500 rounded p-1 text-white"
-        (click)="setView(calendarView.Week)"
-      >
-        Semaine
-      </button>
-      <button
-        class="bg-blue-300 text-lg hover:bg-blue-500 rounded p-1 text-white"
-        (click)="setView(calendarView.Day)"
-      >
-        Jour
-      </button>
+    <span [ngSwitch]="defaultView" class="text-lg">
+      <mwl-calendar-month-view
+        *ngSwitchCase="calendarView.Month"
+        [viewDate]="viewDate"
+        [events]="allEvents"
+        locale="fr"
+        [excludeDays]="[0, 6]"
+        [activeDayIsOpen]="detail"
+        (eventClicked)="detailEvent($event)"
+        (dayClicked)="dayClicked($event.day)"
+      ></mwl-calendar-month-view>
+      <mwl-calendar-week-view
+        *ngSwitchCase="calendarView.Week"
+        [viewDate]="viewDate"
+        [events]="allEvents"
+        locale="fr"
+        [dayStartHour]="8"
+        [dayEndHour]="18"
+        [excludeDays]="[0, 6]"
+      ></mwl-calendar-week-view>
+      <mwl-calendar-day-view
+        *ngSwitchCase="calendarView.Day"
+        [viewDate]="viewDate"
+        [events]="allEvents"
+        locale="fr"
+        [dayStartHour]="8"
+        [dayEndHour]="18"
+      ></mwl-calendar-day-view>
+    </span>
+  </div>
+  <div
+    #form
+    class="absolute none h-screen top-0 opacity-95 bg-slate-700 w-full"
+  >
+    <div class="absolute top-[20%] left-[36%] p-2 bg-white shadow-xl rounded">
+      <div class="flex justify-center">
+        <i
+          (click)="back()"
+          class="fa-sharp fa-solid fa-backward cursor-pointer p-4"
+        ></i>
+        <div class="w-96 p-3 space-y-3">
+          <p class="text-lg">
+            Module: <span class="font-semibold text-xl"></span>
+          </p>
+          <p class="text-lg">
+            Heure debut:
+            <span class="font-semibold text-xl"></span>
+          </p>
+          <p class="text-lg">
+            Heure fin:
+            <span class="font-semibold text-xl"></span>
+          </p>
+          <label class="text-lg" for=""
+            >Veuillez saisir le motif de votre demande d'annulation</label
+          >
+          <div *ngIf="valueDemande == '0'">
+            <textarea
+              #text
+              name=""
+              class="border-2"
+              id=""
+              cols="30"
+              rows="10"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="text-lg flex justify-center gap-5 px-3">
+        <div class="space-x-2" *ngIf="valueDemande == '0'">
+          <button
+            type="button"
+            (click)="demande()"
+            class="cursor-pointer bg-blue-500 text-white px-2 py-1 rounded"
+          >
+            Envoyer
+          </button>
+        </div>
+        <div class="space-x-2">
+          <button
+            type="button"
+            (click)="back()"
+            class="cursor-pointer bg-blue-500 text-white px-2 py-1 rounded"
+          >
+            Annuler
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-  <span [ngSwitch]="defaultView" class="text-lg">
-    <mwl-calendar-month-view
-      *ngSwitchCase="calendarView.Month"
-      [viewDate]="viewDate"
-      [events]="allEvents"
-      locale="fr"
-      [excludeDays]="[0, 6]"
-      [activeDayIsOpen]="detail"
-      (eventClicked)="detailEvent($event)"
-      (dayClicked)="dayClicked($event.day)"
-    ></mwl-calendar-month-view>
-    <mwl-calendar-week-view
-      *ngSwitchCase="calendarView.Week"
-      [viewDate]="viewDate"
-      [events]="allEvents"
-      locale="fr"
-      [dayStartHour]="8"
-      [dayEndHour]="20"
-      [excludeDays]="[0, 6]"
-    ></mwl-calendar-week-view>
-    <mwl-calendar-day-view
-      *ngSwitchCase="calendarView.Day"
-      [viewDate]="viewDate"
-      [events]="allEvents"
-      locale="fr"
-      [dayStartHour]="8"
-      [dayEndHour]="20"
-    ></mwl-calendar-day-view>
-  </span>
 </div>

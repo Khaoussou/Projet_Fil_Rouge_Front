@@ -40,4 +40,196 @@
       </ng-container>
     </div>
   </div>
+  <div
+    #modal
+    class="none bg-slate-300 opacity-100 rounded-lg w-[83.3%] h-full z-10 flex flex-col items-center absolute top-0"
+  >
+    <div class="modal-container w-full bg-white p-3 mt-16 space-y-3 rounded">
+      <div class="flex items-center gap-5">
+        <i
+          class="fa-sharp fa-solid fa-backward cursor-pointer"
+        ></i>
+        <div class="modal-header text-xl">Voici les détails de ce cours</div>
+      </div>
+      <div class="modal-body px-5 space-y-2">
+        <p class="text-xl">
+          Nombre d'heure global :
+          <span class="text-lg text-blueGray-700 font-semibold">
+          </span>
+        </p>
+        <p class="text-xl">
+          Nombre d'heure éffectué :
+          <span class="text-lg text-blueGray-700 font-semibold">
+          </span>
+        </p>
+      </div>
+      <div>
+        <h3 class="px-5 text-xl py-3">
+          Et voici l'ensemble des éléves qui le suivent :
+        </h3>
+        <link
+          rel="stylesheet"
+          href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+        />
+        <section class="py-1 bg-blueGray-50">
+          <div class="w-full xl:w-9/12 mb-12 xl:mb-0 px-7 mx-auto">
+            <div
+              class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
+            >
+              <div class="rounded-t mb-0 px-4 py-3 border-0">
+                <div class="flex flex-wrap items-center">
+                  <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+                    <h3 class="font-semibold text-lg text-blueGray-700">
+                      Info étudiant
+                    </h3>
+                  </div>
+                  <div
+                    *ngIf="showClasses.length != 1"
+                    class="relative w-full max-w-full space-x-5 flex-1 text-right"
+                  >
+                    <label
+                      for=""
+                      class="text-lg font-semibold text-blueGray-700"
+                      >Filtrage par classe:
+                    </label>
+                    <select
+                      name=""
+                      id=""
+                      class="cursor-pointer rounded"
+                    >
+                      <option value="" selected disabled>
+                        Veuillez choisir une classe
+                      </option>
+                      <option
+                        value="{{ classe.classe }}"
+                        *ngFor="let classe of showClasses"
+                      >
+                        {{ classe.classe }}
+                      </option>
+                    </select>
+                  </div>
+                  <div
+                    *ngIf="showClasses.length == 1"
+                    class="relative w-full max-w-full flex-1 text-right"
+                  >
+                    <label for="" class="text-lg text-blueGray-700"
+                      >Voici la classe concernée :
+                    </label>
+                    <input
+                      type="text"
+                      readonly
+                      value="{{ showClasses[0].classe }}"
+                      class="border-none text-lg text-blueGray-700 font-semibold"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="block w-full overflow-x-auto">
+                <table
+                  class="items-center bg-transparent w-full border-collapse"
+                >
+                  <thead>
+                    <tr>
+                      <th
+                        class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 uppercase border-l-0 border-r-0 whitespace-nowrap text-lg font-semibold text-left"
+                        id="nom"
+                      >
+                        Nom
+                      </th>
+                      <th
+                        class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-lg uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+                        id="date"
+                      >
+                        Date de naisaance
+                      </th>
+                      <th
+                        class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-lg uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+                        id="lieu"
+                      >
+                        Lieu de naissance
+                      </th>
+                      <th
+                        class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-lg uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+                        id="lieu"
+                      >
+                        Téléphone
+                      </th>
+                      <th
+                        class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-lg uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+                        id="lieu"
+                      >
+                        Classe
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr *ngFor="let inscrit of tabEtudiants">
+                      <td
+                        class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4"
+                      >
+                        {{ inscrit.name }}
+                      </td>
+                      <td
+                        class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4"
+                      >
+                        {{ inscrit.date_naissance }}
+                      </td>
+                      <td
+                        class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4"
+                        id="lieu"
+                      >
+                        {{ inscrit.lieu_naissance }}
+                      </td>
+                      <td
+                        class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4"
+                        id="lieu"
+                      >
+                        {{ inscrit.telephone }}
+                      </td>
+                      <td
+                        class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4"
+                        id="lieu"
+                      >
+                        {{ inscrit.classe }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div
+        class="modal-footer text-lg flex gap-5 px-5"
+      >
+        <div class="space-x-2">
+          <label for="valide">Valider</label>
+          <input
+            type="radio"
+            value="Terminer"
+            class="cursor-pointer"
+            name="confirmation"
+            id=""
+          />
+        </div>
+        <div class="space-x-2">
+          <label for="invalide">Invalider</label>
+          <input
+            type="radio"
+            value="En cours"
+            class="cursor-pointer"
+            name="confirmation"
+            id=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

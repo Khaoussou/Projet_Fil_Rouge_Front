@@ -68,6 +68,7 @@ export class ListeSessionComponent implements OnInit {
           sessionId: session.id,
           etat: session.etat,
           prof: session.prof,
+          demande: session.demande
         };
         this.events.push(event1);
         this.allEvents = this.events.filter(
