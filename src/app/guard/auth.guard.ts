@@ -21,6 +21,7 @@ export class AuthGuard implements CanActivate {
     const token = this.auth.getItem();
     if (token) {
       this.login.isConnect = true
+      
       return true;
     } else {
       this.login.isConnect = false

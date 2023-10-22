@@ -31,6 +31,7 @@ export class ListeSessionComponent implements OnInit {
   public hg: number = 0;
   public heff: number = 0;
   public hr: number = 0;
+  public idCour: number = 0;
   public hf: string = '';
   public date: string = '';
   public courClassId: number[] = [];
@@ -64,8 +65,9 @@ export class ListeSessionComponent implements OnInit {
           start: new Date(session.date + 'T' + session.heure_debut),
           end: new Date(session.date + 'T' + session.heure_fin),
           id: session.cour_id,
+          sessionId: session.id,
           etat: session.etat,
-          prof: session.prof
+          prof: session.prof,
         };
         this.events.push(event1);
         this.allEvents = this.events.filter(
@@ -120,6 +122,7 @@ export class ListeSessionComponent implements OnInit {
   }
 
   detailEvent(event: any) {
+    console.log(event);
     this.form.nativeElement.style.display = 'block';
     this.module = event.event.title;
     const start = new Date(event.event.start);
@@ -129,8 +132,7 @@ export class ListeSessionComponent implements OnInit {
     this.hd = heured.split(' ')[1] as string;
     this.hf = heuref.split(' ')[1] as string;
     this.date = heured.split(' ')[0] as string;
-    console.log(event);
-    console.log();
+    this.idCour = event.event.id;
     const id: number = event.event.id as number;
     this.courService.getClasse(id).subscribe((response) => {
       if ('classes' in response.data) {
@@ -154,11 +156,26 @@ export class ListeSessionComponent implements OnInit {
       hf: this.hf,
       courClasses: this.courClassId,
     };
-    console.log(this.detailSession);
 
     this.sessionService.modify(this.detailSession).subscribe((response) => {
       console.log(response.data);
     });
+    this.form.nativeElement.style.display = 'none';
+  }
+
+  removeSession() {
+    this.detailSession = {
+      date: this.date,
+      hd: this.hd,
+      hf: this.hf,
+      id: this.idCour,
+      courClasses: this.courClassId,
+    };
+    this.sessionService
+      .removeSession(this.detailSession)
+      .subscribe((response) => {
+        console.log(response);
+      });
     this.form.nativeElement.style.display = 'none';
   }
 }

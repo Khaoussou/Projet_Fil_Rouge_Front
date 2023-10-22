@@ -24,6 +24,8 @@ export class ConnexionComponent {
   }
 
   onSubmit() {
+    console.log('bap');
+    
     this.connexionService.login(this.form.value).subscribe((response) => {
       if ('token' in response) {
         localStorage.setItem('user', JSON.stringify(response));

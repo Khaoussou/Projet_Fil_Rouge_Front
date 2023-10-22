@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { isSameDay, isSameMonth } from 'date-fns';
+import { MyEvent } from 'src/app/model/my-event';
 import { Session } from 'src/app/model/session';
 import { SessionService } from 'src/app/service/session.service';
 
@@ -16,8 +17,10 @@ export class SessionProfComponent implements OnInit {
   public sessions: Session[] = [];
   public allSessions: Session[] = [];
   public detail: boolean = false;
-  public events: CalendarEvent[] = [];
+  public events: MyEvent[] = [];
   public idProf: number = 0;
+  public allEvents: MyEvent[] = [];
+  public eventFilter: MyEvent[] = [];
 
   ngOnInit(): void {
     const userConnectData = localStorage.getItem('user');
@@ -44,8 +47,24 @@ export class SessionProfComponent implements OnInit {
           title: session.prof,
           start: new Date(session.date + 'T' + session.heure_debut),
           end: new Date(session.date + 'T' + session.heure_fin),
+          id: session.cour_id,
+          sessionId: session.id,
+          etat: session.etat,
+          prof: session.prof,
         };
         this.events.push(event1);
+        this.allEvents = this.events.filter(
+          (event, index, myTab) =>
+            index ===
+            myTab.findIndex((e) => {
+              return (
+                e.title == event.title,
+                e.start.getTime() == event.start.getTime(),
+                e.end?.getTime() == event.end?.getTime()
+              );
+            })
+        );
+        this.eventFilter = this.allEvents;
       });
       console.log(this.events);
     });

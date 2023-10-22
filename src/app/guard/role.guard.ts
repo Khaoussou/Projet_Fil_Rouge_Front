@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
+  Router,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
@@ -12,7 +13,7 @@ import { AuthService } from '../service/auth.service';
   providedIn: 'root',
 })
 export class HasRoleGuard implements CanActivate {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -23,12 +24,14 @@ export class HasRoleGuard implements CanActivate {
     | boolean
     | UrlTree {
     const isAuthorized = route.data['role'];
+    let rout = state.url;
+    console.log(rout);
 
     console.log(isAuthorized);
     if (
       !isAuthorized.some((role: string) => this.authService.getRole() == role)
     ) {
-      window.alert('Vous ne pouvez pas acceder à cette ressource !');
+      this.router.navigateByUrl(rout);
       return false;
     }
     return true;

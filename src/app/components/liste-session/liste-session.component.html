@@ -153,7 +153,7 @@
         </div>
       </div>
       <div class="text-lg flex justify-center gap-5 px-3">
-        <div class="space-x-2">
+        <div *ngIf="user.role == 'RP'" class="space-x-2">
           <button
             type="button"
             (click)="updateState($event)"
@@ -162,7 +162,16 @@
             Valider
           </button>
         </div>
-        <div class="space-x-2">
+        <div *ngIf="user.role == 'Attache'" class="space-x-2">
+          <button
+            type="button"
+            (click)="removeSession()"
+            class="cursor-pointer bg-blue-500 text-white px-2 py-1 rounded"
+          >
+            Annuler
+          </button>
+        </div>
+        <div *ngIf="user.role == 'RP'" class="space-x-2">
           <button
             type="button"
             (click)="back()"

@@ -71,7 +71,7 @@ const routes: Routes = [
     component: SessionProfComponent,
     canActivate: [AuthGuard, HasRoleGuard],
     data: {
-      role: ['Prof']
+      role: ['Prof'],
     },
   },
 ];
