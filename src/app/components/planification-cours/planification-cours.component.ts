@@ -51,7 +51,6 @@ export class PlanificationCoursComponent implements OnInit {
   }
 
   change(event: Event) {
-    
     this.profs = [];
     const target: HTMLSelectElement = event.target as HTMLSelectElement;
     console.log(target.value);
@@ -102,7 +101,6 @@ export class PlanificationCoursComponent implements OnInit {
   }
 
   onSubmit() {
-    
     this.coursService.add(this.form.value).subscribe((response) => {
       this.succes = response.message;
     });

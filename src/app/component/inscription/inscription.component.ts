@@ -10,6 +10,7 @@ import * as XLSX from 'xlsx';
 export class InscriptionComponent {
   public file!: File;
   public tabInscriptions: any;
+  public message: string = '';
 
   constructor(private inscripService: EtudiantService) {}
 
@@ -28,6 +29,7 @@ export class InscriptionComponent {
 
   add() {
     this.inscripService.add(this.tabInscriptions).subscribe((response) => {
+      this.message = response.message
       console.log(response);
     });
   }

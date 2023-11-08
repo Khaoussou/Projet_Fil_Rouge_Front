@@ -6,4 +6,5 @@ export interface MyEvent extends CalendarEvent {
   etat: string;
   demande: string;
   prof: string;
+  salle: string;
 }

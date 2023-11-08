@@ -61,22 +61,24 @@ export class SessionProfComponent implements OnInit {
           etat: session.etat,
           prof: session.prof,
           demande: session.demande,
+          salle: session.salle
         };
         this.events.push(event1);
         this.allEvents = this.events.filter(
           (event, index, myTab) =>
-            index ===
+            index ==
             myTab.findIndex((e) => {
               return (
                 e.title == event.title,
-                e.start.getTime() == event.start.getTime(),
-                e.end?.getTime() == event.end?.getTime()
+                e.start == event.start,
+                e.end == event.end
               );
             })
         );
         this.eventFilter = this.allEvents;
       });
       console.log(this.events);
+      console.log(this.allEvents);
     });
   }
 
